@@ -26,9 +26,9 @@ if vim.g.neovide then
 
   vim.keymap.set({"n", "i", "v"}, '<D-v>', '<ESC>"+p<CR>', { noremap = true, silent = true})
 
-  vim.keymap.set({"n", "i", "v"}, '<D-p>', '<ESC>:Telescope find_files<CR>', { noremap = true, silent = true})
+  vim.keymap.set({"n", "i", "v"}, '<D-t>', '<ESC>:Telescope find_files<CR>', { noremap = true, silent = true})
 
-  vim.keymap.set({"n", "i", "v"}, '<D-t>', '<ESC>:Telescope git_files<CR>', { noremap = true, silent = true})
+  vim.keymap.set({"n", "i", "v"}, '<D-p>', '<ESC>:Telescope git_files<CR>', { noremap = true, silent = true})
 
   vim.keymap.set({"n", "i", "v"}, '<D-b>', '<ESC>:Telescope buffers<CR>', { noremap = true, silent = true})
 
