@@ -1,6 +1,6 @@
 if vim.g.neovide then
-  vim.o.guifont = "SFMono Nerd Font:h15"
-  vim.opt.linespace = 6
+  vim.o.guifont = "SFMono Nerd Font:h15:#e-subpixelantialias"
+  vim.opt.linespace = 4
   vim.g.neovide_confirm_quit = true
   vim.g.neovide_input_use_logo = 1
   vim.g.neovide_cursor_vfx_mode = "pixiedust"
