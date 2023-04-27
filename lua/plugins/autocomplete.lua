@@ -7,6 +7,13 @@ return {
       local luasnip = require("luasnip")
       local lspkind = require("lspkind")
 
+      -- Jump to the next slot on snippets
+      vim.keymap.set({"i", "s"}, "<C-k>", function()
+        if luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        end
+      end)
+
       return {
         preselect = cmp.PreselectMode.None,
         snippet = {
