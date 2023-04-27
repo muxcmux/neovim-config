@@ -14,6 +14,14 @@ return {
         end
       end)
 
+      -- Fix autopairs enter
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+
+      cmp.event:on(
+        'confirm_done',
+        cmp_autopairs.on_confirm_done()
+      )
+
       return {
         preselect = cmp.PreselectMode.None,
         snippet = {
@@ -48,6 +56,7 @@ return {
       }
     end,
     dependencies = {
+      'windwp/nvim-autopairs',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
