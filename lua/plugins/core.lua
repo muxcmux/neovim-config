@@ -2,7 +2,7 @@ return {
   -- Automatically close paired brackets and quotes
   {
     'windwp/nvim-autopairs',
-    event = { "InsertEnter" },
+    event = { "VeryLazy" },
     opts = {
       check_ts = true,
       map_cr = true,
@@ -12,23 +12,23 @@ return {
   -- Align stuff
   {
     'tommcdo/vim-lion',
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "VeryLazy" },
   },
 
   -- Comments
   {
     'numToStr/Comment.nvim',
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "VeryLazy" },
     opts = {},
   },
 
   -- tpope, because he is awesome
   {
     'tpope/vim-surround',
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "VeryLazy" },
   },
   {
     'tpope/vim-repeat',
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "VeryLazy" },
   },
 }
