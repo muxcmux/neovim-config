@@ -12,7 +12,13 @@ return {
         },
       },
       sections = {
-        lualine_b = { 'branch', 'diagnostics' },
+        lualine_b = {
+          'branch',
+          {
+            'diagnostics',
+            symbols = {error = ' ', warn = ' ', info = ' ', hint = '󰌵 '},
+          },
+        },
       },
     },
   }

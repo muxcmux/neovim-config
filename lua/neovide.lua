@@ -4,7 +4,7 @@ if vim.g.neovide then
   vim.g.neovide_confirm_quit = true
   vim.g.neovide_input_use_logo = 1
   vim.g.neovide_cursor_vfx_mode = "pixiedust"
-  vim.g.neovide_cursor_vfx_particle_density = 25
+  vim.g.neovide_cursor_vfx_particle_density = 30
   vim.g.neovide_cursor_vfx_particle_phase = 4
   vim.g.neovide_cursor_vfx_particle_lifetime = 2
   vim.g.neovide_cursor_trail_size = 0.4

@@ -42,7 +42,7 @@ return {
     require("mason-lspconfig").setup()
 
     -- configure the signs in the sign column and the virtual text
-    local signs = { Error = "", Warn = "", Hint = "", Info = "" }
+    local signs = { Error = "", Warn = "", Hint = "󰌵", Info = "" }
     for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
@@ -141,5 +141,6 @@ return {
     'b0o/schemastore.nvim',
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
+    'onsails/lspkind.nvim',
   }
 }
