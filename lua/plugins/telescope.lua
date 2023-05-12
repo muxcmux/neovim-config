@@ -37,40 +37,40 @@ return {
         },
         live_grep = {
           theme = "ivy",
-          prompt_prefix = " ",
+          prompt_prefix = "󰍉 ",
           layout_config = {
             height = 0.5,
           },
         },
         grep_string = {
           theme = "ivy",
-          prompt_prefix = " ",
+          prompt_prefix = "󰍉 ",
           layout_config = {
             height = 0.5,
           },
         },
         current_buffer_fuzzy_find = {
           theme = "ivy",
-          prompt_prefix = " ",
+          prompt_prefix = "󰍉 ",
           layout_config = {
             height = 0.5,
           },
         },
         lsp_definitions = {
           theme = "dropdown",
-          prompt_prefix = " ",
+          prompt_prefix = "ƒ ",
         },
         lsp_references = {
           theme = "dropdown",
-          prompt_prefix = " ",
+          prompt_prefix = "ƒ ",
         },
         lsp_implementations = {
           theme = "dropdown",
-          prompt_prefix = " ",
+          prompt_prefix = "ƒ ",
         },
         lsp_type_definitions = {
           theme = "dropdown",
-          prompt_prefix = " ",
+          prompt_prefix = "ƒ ",
         },
       },
 
