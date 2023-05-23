@@ -4,7 +4,7 @@ return {
     event = { "VeryLazy" },
     build = ":TSUpdate",
     opts = {
-      ensure_installed = { "ruby", "lua", "rust", "javascript", "typescript", "css" },
+      -- ensure_installed = { "ruby", "lua", "rust", "javascript", "typescript", "css" },
       sync_install = false,
       auto_install = true,
       highlight = {
