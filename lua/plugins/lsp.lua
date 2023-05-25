@@ -117,6 +117,12 @@ return {
       on_attach = on_attach,
     })
 
+    -- Javascript/Typescript rust powered ls
+    lspconfig.rome.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
+
     -- Eslint lsp
     lspconfig.eslint.setup({
       capabilities = capabilities,
@@ -137,6 +143,17 @@ return {
 
     -- Tailwind
     lspconfig.tailwindcss.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
+
+    -- Markdown and writing related lsps
+    lspconfig.ltex.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
+
+    lspconfig.marksman.setup({
       capabilities = capabilities,
       on_attach = on_attach,
     })
