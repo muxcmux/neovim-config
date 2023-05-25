@@ -157,6 +157,12 @@ return {
       capabilities = capabilities,
       on_attach = on_attach,
     })
+
+    -- Dockerfile LSP
+    lspconfig.dockerls.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
   end,
 
   dependencies = {
