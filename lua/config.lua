@@ -39,6 +39,10 @@ opt.iskeyword:append("-")
 
 vim.g.mapleader = " "
 
+-- get rid of netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- higlighted yank
 vim.cmd [[
   autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup=(vim.fn['hlexists']('HighlightedyankRegion') > 0 and 'HighlightedyankRegion' or 'IncSearch'), timeout=180}
