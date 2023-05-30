@@ -28,8 +28,8 @@ return {
     keys = {
       { "<leader>gv", ":Gvdiff!<CR>", desc = "Open 3-way vertical diff split", silent = true },
       { "<leader>gV", ":Gdiff!<CR>", desc = "Open 3-way diff split", silent = true },
-      { "<leader>gh", ":diffget //2<CR>", desc = "Apply git changes from left", silent = true },
-      { "<leader>gl", ":diffget //3<CR>", desc = "Apply git changes from right", silent = true },
+      { "<leader>gh", ":diffget //2<CR>", desc = "Apply git changes from left (top)", silent = true },
+      { "<leader>gl", ":diffget //3<CR>", desc = "Apply git changes from right (bottom)", silent = true },
     },
   },
   { 'tpope/vim-rhubarb' },
