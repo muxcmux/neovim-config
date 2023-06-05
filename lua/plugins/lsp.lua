@@ -168,6 +168,13 @@ return {
       capabilities = capabilities,
       on_attach = on_attach,
     })
+
+    -- C/C++
+    lspconfig.clangd.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
+
   end,
 
   dependencies = {

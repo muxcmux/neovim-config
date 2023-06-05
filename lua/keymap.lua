@@ -16,12 +16,6 @@ end
 -- Exit insert mode by typing jk in quick succession
 key.set("i", "jk", "<Esc>")
 
--- Pane and tab navigation
-key.set("n", "<leader>h", ":wincmd h<CR>", { silent = true })
-key.set("n", "<leader>j", ":wincmd j<CR>", { silent = true })
-key.set("n", "<leader>k", ":wincmd k<CR>", { silent = true })
-key.set("n", "<leader>l", ":wincmd l<CR>", { silent = true })
-
 -- Keep selection when indenting
 key.set("v", "<", "<gv")
 key.set("v", ">", ">gv")
