@@ -91,7 +91,7 @@ return {
     { "<leader>b", ":Telescope buffers<CR>", desc = "List buffers", silent = true },
     { "<leader>F", ":Telescope live_grep<CR>", desc = "Find in project", silent = true },
     { "<leader>s", ":Telescope grep_string<CR>", desc = "Find a string in project", silent = true },
-    { "<leader>gc", ":Telescope git_branches<CR>", desc = "List fit branches", silent = true },
+    { "<leader>gc", ":Telescope git_branches<CR>", desc = "List git branches", silent = true },
     { "<leader>y", ":Telescope symbols<CR>", desc = "List symbols and emoji", silent = true },
     { "<leader>t", ":Telescope find_files<CR>", desc = "Find files", silent = true },
     { "<leader>s", [["ty:exec "Telescope live_grep default_text=". escape(@t, '<Space>()[]{}?.')<CR>]], desc = "Find a string in project", mode = "v", silent = true },
