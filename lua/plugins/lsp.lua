@@ -35,153 +35,165 @@ local on_attach = function(_, bufnr)
 end
 
 return {
-  'neovim/nvim-lspconfig',
-  event = { "BufReadPre", "BufNewFile" },
-  config = function()
-    require("mason").setup()
-    require("mason-lspconfig").setup()
+  {
+    'neovim/nvim-lspconfig',
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require("mason").setup()
+      require("mason-lspconfig").setup()
 
-    -- configure the signs in the sign column and the virtual text
-    local signs = { Error = "", Warn = "", Hint = "󰌵", Info = "" }
-    for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
-    end
+      -- configure the signs in the sign column and the virtual text
+      local signs = { Error = "", Warn = "", Hint = "󰌵", Info = "" }
+      for type, icon in pairs(signs) do
+          local hl = "DiagnosticSign" .. type
+          vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
+      end
 
-    vim.diagnostic.config({
-      virtual_text = false
-    })
+      vim.diagnostic.config({
+        virtual_text = false
+      })
 
-    ------------------------------
-    -- LSP Server configuration --
-    ------------------------------
+      ------------------------------
+      -- LSP Server configuration --
+      ------------------------------
 
-    local cmp_nvim_lsp = require("cmp_nvim_lsp")
-    local capabilities = cmp_nvim_lsp.default_capabilities()
-    local lspconfig = require("lspconfig")
+      local cmp_nvim_lsp = require("cmp_nvim_lsp")
+      local capabilities = cmp_nvim_lsp.default_capabilities()
+      local lspconfig = require("lspconfig")
 
-    -- Lua
-    lspconfig.lua_ls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        Lua = {
-          diagnostics = {
-            globals = { "vim", "hs" },
-          },
-          runtime = {
-            version = 'LuaJIT',
-          },
-          workspace = {
-            library = {
-              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-              [vim.fn.stdpath("config") .. "/lua"] = true,
+      -- Lua
+      lspconfig.lua_ls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim", "hs" },
+            },
+            runtime = {
+              version = 'LuaJIT',
+            },
+            workspace = {
+              library = {
+                [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                [vim.fn.stdpath("config") .. "/lua"] = true,
+              }
             }
-          }
+          },
         },
-      },
-    })
+      })
 
-    -- Rust
-    lspconfig.rust_analyzer.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        ['rust-analyzer'] = {
-          checkOnSave = {
-            allFeatures = true,
-            overrideCommand = {
-              'cargo', 'clippy', '--workspace', '--message-format=json',
-              '--all-targets', '--all-features'
+      -- Rust
+      lspconfig.rust_analyzer.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          ['rust-analyzer'] = {
+            checkOnSave = {
+              allFeatures = true,
+              overrideCommand = {
+                'cargo', 'clippy', '--workspace', '--message-format=json',
+                '--all-targets', '--all-features'
+              }
             }
           }
         }
-      }
-    })
+      })
 
-    -- Ruby Solargraph
-    lspconfig.solargraph.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        solargraph = {
-          diagnostics = true,
-          completion = true
+      -- Ruby Solargraph
+      lspconfig.solargraph.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          solargraph = {
+            diagnostics = true,
+            completion = true
+          }
         }
-      }
-    })
+      })
 
-    -- Typescript
-    lspconfig.tsserver.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
+      -- Typescript
+      lspconfig.tsserver.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
 
-    -- Javascript/Typescript rust powered ls
-    lspconfig.rome.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
+      -- Javascript/Typescript rust powered ls
+      lspconfig.rome.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
 
-    -- Eslint lsp
-    lspconfig.eslint.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
+      -- Eslint lsp
+      lspconfig.eslint.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
 
-    -- Json LSP config
-    lspconfig.jsonls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        json = {
-          schemas = require('schemastore').json.schemas(),
-          validate = { enable = true },
+      -- Json LSP config
+      lspconfig.jsonls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          json = {
+            schemas = require('schemastore').json.schemas(),
+            validate = { enable = true },
+          },
         },
-      },
-    })
+      })
 
-    -- Tailwind
-    lspconfig.tailwindcss.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
+      -- Tailwind
+      lspconfig.tailwindcss.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
 
-    -- Markdown and writing related lsps
-    lspconfig.ltex.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        ltex= {
-          language = "en-GB",
+      -- Markdown and writing related lsps
+      lspconfig.ltex.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          ltex= {
+            language = "en-GB",
+          },
         },
+      })
+
+      lspconfig.marksman.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+      -- Dockerfile LSP
+      lspconfig.dockerls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+      -- C/C++
+      lspconfig.clangd.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+    end,
+
+    dependencies = {
+      'folke/trouble.nvim',
+      'b0o/schemastore.nvim',
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      'onsails/lspkind.nvim',
+    }
+  }, {
+    "j-hui/fidget.nvim",
+    tag = "legacy",
+    event = "LspAttach",
+    opts = {
+      text = {
+        spinner = {"󱑖","󱑋","󱑌","󱑍","󱑎","󱑏","󱑐","󱑑","󱑒","󱑓","󱑔","󱑕"},
+        done = "󰄭",
       },
-    })
-
-    lspconfig.marksman.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
-
-    -- Dockerfile LSP
-    lspconfig.dockerls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
-
-    -- C/C++
-    lspconfig.clangd.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
-
-  end,
-
-  dependencies = {
-    'folke/trouble.nvim',
-    'b0o/schemastore.nvim',
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
-    'onsails/lspkind.nvim',
-  }
+    },
+  },
 }
