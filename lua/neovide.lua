@@ -1,5 +1,5 @@
 if vim.g.neovide then
-  vim.o.guifont = "SFMono Nerd Font:h15:#e-subpixelantialias"
+  vim.o.guifont = "SFMono Nerd Font:h14:#e-subpixelantialias"
   vim.opt.linespace = 4
   vim.g.neovide_confirm_quit = true
   vim.g.neovide_input_use_logo = 1
