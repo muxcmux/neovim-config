@@ -107,7 +107,21 @@ return {
         settings = {
           solargraph = {
             diagnostics = true,
-            completion = true
+            completion = true,
+          }
+        }
+      })
+
+      -- Ruby standardrb
+      lspconfig.standardrb.setup({
+        autostart = false,
+        capabilities = capabilities,
+        on_attach = on_attach,
+        cmd = { "bundle", "exec", "standardrb", "--lsp" },
+        settings = {
+          standardrb = {
+            diagnostics = true,
+            formatting = true,
           }
         }
       })
