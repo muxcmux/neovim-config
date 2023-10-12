@@ -13,6 +13,8 @@ return {
     "rebelot/kanagawa.nvim",
     lazy = true,
     config = {
+      compile = true,
+      dimInactive = true,
       colors = {
         theme = {
           all = {
@@ -26,6 +28,14 @@ return {
   }, {
     "catppuccin/nvim",
     lazy = true,
+    opts = {
+      dim_inactive = {
+        enabled = true,
+      },
+    },
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+    end
   }, {
     "f-person/auto-dark-mode.nvim",
     lazy = false,
