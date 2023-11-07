@@ -1,7 +1,8 @@
 -- LSP Keymaps
 local key = vim.keymap
-local on_attach = function(_, bufnr)
-  -- opens the diagnostics tooltip on cursor hold
+
+-- opens the diagnostics tooltip on cursor hold
+local diagnostics_on_cursor_hold = function(bufnr)
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,
     callback = function()
@@ -13,8 +14,31 @@ local on_attach = function(_, bufnr)
       vim.diagnostic.open_float(nil, opts)
     end
   })
+end
 
-  -- keymaps
+local highlight_symbol_under_cursor = function(client, bufnr)
+  if client.supports_method "textDocument/documentHighlight" then
+    vim.api.nvim_create_augroup("lsp_document_highlight", {
+      clear = false,
+    })
+    vim.api.nvim_clear_autocmds({
+      buffer = bufnr,
+      group = "lsp_document_highlight",
+    })
+    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+      group = "lsp_document_highlight",
+      buffer = bufnr,
+      callback = vim.lsp.buf.document_highlight,
+    })
+    vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+      group = "lsp_document_highlight",
+      buffer = bufnr,
+      callback = vim.lsp.buf.clear_references,
+    })
+  end
+end
+
+local keymaps = function(bufnr)
   local opts = { silent = true, noremap = true, buffer = bufnr }
 
   -- key.set("n", "gd", ":Trouble lsp_definitions<CR>", opts)
@@ -32,6 +56,12 @@ local on_attach = function(_, bufnr)
   key.set("n", "[g", vim.diagnostic.goto_prev, opts)
   key.set("n", "K", vim.lsp.buf.hover, opts)
   key.set('n', '<space>K', vim.lsp.buf.signature_help, opts)
+end
+
+local on_attach = function(client, bufnr)
+  diagnostics_on_cursor_hold(bufnr)
+  keymaps(bufnr)
+  highlight_symbol_under_cursor(client, bufnr)
 end
 
 return {
@@ -150,17 +180,17 @@ return {
           on_attach(client, buffer)
         end,
       })
-      -- -- Ruby Solargraph
-      -- lspconfig.solargraph.setup({
-      --   capabilities = capabilities,
-      --   on_attach = on_attach,
-      --   settings = {
-      --     solargraph = {
-      --       diagnostics = true,
-      --       completion = true,
-      --     }
-      --   }
-      -- })
+      -- Ruby Solargraph
+      lspconfig.solargraph.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          solargraph = {
+            diagnostics = true,
+            completion = true,
+          }
+        }
+      })
       --
       -- -- Ruby standardrb
       -- lspconfig.standardrb.setup({
@@ -183,7 +213,7 @@ return {
       })
 
       -- Javascript/Typescript rust powered ls
-      lspconfig.rome.setup({
+      lspconfig.biome.setup({
         capabilities = capabilities,
         on_attach = on_attach,
       })
@@ -208,6 +238,12 @@ return {
 
       -- Tailwind
       lspconfig.tailwindcss.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+      -- CSS
+      lspconfig.cssls.setup({
         capabilities = capabilities,
         on_attach = on_attach,
       })

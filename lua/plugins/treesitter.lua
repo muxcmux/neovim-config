@@ -29,13 +29,7 @@ return {
           include_surrounding_whitespace = false,
         },
         swap = {
-          enable = true,
-          swap_next = {
-            ["<leader>m"] = "@parameter.inner",
-          },
-          swap_previous = {
-            ["<leader>M"] = "@parameter.inner",
-          },
+          enable = false,
         },
       },
     },

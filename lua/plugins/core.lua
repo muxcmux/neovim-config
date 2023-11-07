@@ -22,6 +22,12 @@ return {
     opts = {},
   },
 
+  -- Switch between camelCase, TitleCase, snake_case, etc.
+  {
+    'arthurxavierx/vim-caser',
+    event = { "VeryLazy"},
+  },
+
   -- tpope, because he is awesome
   {
     'tpope/vim-surround',

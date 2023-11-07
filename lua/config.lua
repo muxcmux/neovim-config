@@ -2,12 +2,11 @@ local opt = vim.opt
 
 opt.termguicolors  = true
 opt.confirm        = true
-opt.showmode       = false
+-- opt.showmode       = false
 opt.errorbells     = true
 opt.expandtab      = true
 opt.shiftwidth     = 2
 opt.softtabstop    = 2
-opt.laststatus     = 2
 opt.smartindent    = true
 opt.relativenumber = true
 opt.nu             = true
