@@ -7,6 +7,7 @@ opt.errorbells     = true
 opt.expandtab      = true
 opt.shiftwidth     = 2
 opt.softtabstop    = 2
+opt.laststatus     = 0
 opt.smartindent    = true
 opt.relativenumber = true
 opt.nu             = true
