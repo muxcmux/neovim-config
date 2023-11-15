@@ -59,7 +59,7 @@ local keymaps = function(bufnr)
 end
 
 local on_attach = function(client, bufnr)
-  diagnostics_on_cursor_hold(bufnr)
+  -- diagnostics_on_cursor_hold(bufnr)
   keymaps(bufnr)
   highlight_symbol_under_cursor(client, bufnr)
 end
@@ -79,9 +79,9 @@ return {
           vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
       end
 
-      vim.diagnostic.config({
-        virtual_text = false
-      })
+      -- vim.diagnostic.config({
+      --   virtual_text = false
+      -- })
 
       ------------------------------
       -- LSP Server configuration --
