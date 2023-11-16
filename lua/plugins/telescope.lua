@@ -97,6 +97,8 @@ return {
     { "<leader>s", [["ty:exec "Telescope live_grep default_text=". escape(@t, '<Space>()[]{}?.')<CR>]], desc = "Find a string in project", mode = "v", silent = true },
   },
 
+  cmd = 'Telescope',
+
   dependencies = {
     'nvim-lua/plenary.nvim',
     "nvim-tree/nvim-web-devicons",
