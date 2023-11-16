@@ -2,10 +2,14 @@ return {
   {
     'mfussenegger/nvim-dap',
     lazy = true,
+    cmd = { 'DapContinue', 'DapToggleBreakpoint', 'DapToggleRepl' },
     keys = {
-      { "<leader>db", ":lua require'dap'.toggle_breakpoint()<cr>", desc = "Toggle breakpoint", silent = true },
-      { "<leader>dc", ":lua require'dap'.continue()<cr>", desc = "Debugger continue", silent = true },
-      { "<leader>dr", ":lua require'dap'.repl.open()<cr>:wincmd j<cr>i", desc = "Open debugger repl", silent = true },
+      { "<leader>db", ":DapToggleBreakpoint<cr>", desc = "Toggle breakpoint", silent = true },
+      { "<leader>dc", ":DapContinue<cr>", desc = "Debugger continue", silent = true },
+      { "<leader>dr", ":DapToggleRepl<cr>:wincmd j<cr>i", desc = "Open debugger repl", silent = true },
+      { "<leader>di", ":DapStepIn<cr>", desc = "Debugger step in", silent = true },
+      { "<leader>dn", ":DapStepOver<cr>", desc = "Debugger step over (next line)", silent = true },
+      { "<leader>do", ":DapStepOut<cr>", desc = "Debugger step out", silent = true },
     },
     dependencies = {
       'rcarriga/cmp-dap',
@@ -40,7 +44,14 @@ return {
       }
     end
   }, {
+    'theHamsta/nvim-dap-virtual-text',
+    lazy = true,
+    config = function()
+      require('nvim-dap-virtual-text').setup()
+    end,
+  }, {
     'LiadOz/nvim-dap-repl-highlights',
+    lazy = true,
     config = function()
       require('nvim-dap-repl-highlights').setup()
     end,
@@ -48,6 +59,12 @@ return {
     'rcarriga/cmp-dap',
     lazy = true,
     config = function()
+      require("cmp").setup({
+        enabled = function()
+          return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+              or require("cmp_dap").is_dap_buffer()
+        end
+      })
       require("cmp").setup.filetype({ "dap-repl" }, {
         sources = {
           { name = "dap" },
