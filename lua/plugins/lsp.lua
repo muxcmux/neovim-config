@@ -1,21 +1,6 @@
 -- LSP Keymaps
 local key = vim.keymap
 
--- opens the diagnostics tooltip on cursor hold
-local diagnostics_on_cursor_hold = function(bufnr)
-  vim.api.nvim_create_autocmd("CursorHold", {
-    buffer = bufnr,
-    callback = function()
-      local opts = {
-        focusable = false,
-        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-        scope = 'cursor',
-      }
-      vim.diagnostic.open_float(nil, opts)
-    end
-  })
-end
-
 local highlight_symbol_under_cursor = function(client, bufnr)
   if client.supports_method "textDocument/documentHighlight" then
     vim.api.nvim_create_augroup("lsp_document_highlight", {
@@ -41,13 +26,12 @@ end
 local keymaps = function(bufnr)
   local opts = { silent = true, noremap = true, buffer = bufnr }
 
-  -- key.set("n", "gd", ":Trouble lsp_definitions<CR>", opts)
   key.set("n", "gd", vim.lsp.buf.definition, opts)
   key.set("n", "gr", vim.lsp.buf.references, opts)
   key.set("n", "gi", ":Trouble lsp_implementations<CR>", opts)
   key.set("n", "gt", ":Trouble lsp_type_definitions<CR>", opts)
-  key.set("n", "<leader>d", ":Trouble document_diagnostics<CR>", opts)
-  key.set("n", "<leader>wd", ":Trouble workspace_diagnostics<CR>", opts)
+  key.set("n", "<leader>e", ":Trouble document_diagnostics<CR>", opts)
+  key.set("n", "<leader>we", ":Trouble workspace_diagnostics<CR>", opts)
   key.set("n", "<leader>q", ":TroubleClose<CR>:cclose<CR>", opts)
   key.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, opts)
   key.set("n", "<leader>f",vim.lsp.buf.format, opts)
@@ -59,7 +43,6 @@ local keymaps = function(bufnr)
 end
 
 local on_attach = function(client, bufnr)
-  -- diagnostics_on_cursor_hold(bufnr)
   keymaps(bufnr)
   highlight_symbol_under_cursor(client, bufnr)
 end
@@ -78,10 +61,6 @@ return {
           local hl = "DiagnosticSign" .. type
           vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
       end
-
-      -- vim.diagnostic.config({
-      --   virtual_text = false
-      -- })
 
       ------------------------------
       -- LSP Server configuration --
@@ -103,6 +82,9 @@ return {
             runtime = {
               version = 'LuaJIT',
             },
+            hint = {
+              enable = true,
+            },
             workspace = {
               library = {
                 [vim.fn.expand("$VIMRUNTIME/lua")] = true,
@@ -115,7 +97,27 @@ return {
 
       -- Rust
       lspconfig.rust_analyzer.setup({
-        capabilities = capabilities,
+        capabilities = vim.tbl_deep_extend('force', capabilities, {
+          textDocument = {
+            completion = {
+              completionItem = {
+                snippetSupport = true,
+              },
+            },
+          },
+          experimental = {
+            ssr = true,
+            commands = {
+              commands = {
+                "rust-analyzer.runSingle",
+                "rust-analyzer.debugSingle",
+                "rust-analyzer.showReferences",
+                "rust-analyzer.gotoLocation",
+                "editor.action.triggerParameterHints",
+              },
+            },
+          },
+        }),
         on_attach = on_attach,
         settings = {
           ['rust-analyzer'] = {
@@ -130,57 +132,11 @@ return {
         }
       })
 
-      -- textDocument/diagnostic support until 0.10.0 is released
-      _timers = {}
-      local function setup_diagnostics(client, buffer)
-        if require("vim.lsp.diagnostic")._enable then
-          return
-        end
-
-        local diagnostic_handler = function()
-          local params = vim.lsp.util.make_text_document_params(buffer)
-          client.request("textDocument/diagnostic", { textDocument = params }, function(err, result)
-            if err then
-              local err_msg = string.format("diagnostics error - %s", vim.inspect(err))
-              vim.lsp.log.error(err_msg)
-            end
-            local diagnostic_items = {}
-            if result then
-              diagnostic_items = result.items
-            end
-            vim.lsp.diagnostic.on_publish_diagnostics(
-              nil,
-              vim.tbl_extend("keep", params, { diagnostics = diagnostic_items }),
-              { client_id = client.id }
-            )
-          end)
-        end
-
-        diagnostic_handler() -- to request diagnostics on buffer when first attaching
-
-        vim.api.nvim_buf_attach(buffer, false, {
-          on_lines = function()
-            if _timers[buffer] then
-              vim.fn.timer_stop(_timers[buffer])
-            end
-            _timers[buffer] = vim.fn.timer_start(200, diagnostic_handler)
-          end,
-          on_detach = function()
-            if _timers[buffer] then
-              vim.fn.timer_stop(_timers[buffer])
-            end
-          end,
-        })
-      end
-
+      -- Ruby
       lspconfig.ruby_ls.setup({
         capabilities = capabilities,
-        on_attach = function(client, buffer)
-          setup_diagnostics(client, buffer)
-          on_attach(client, buffer)
-        end,
+        on_attach = on_attach,
       })
-      -- Ruby Solargraph
       lspconfig.solargraph.setup({
         capabilities = capabilities,
         on_attach = on_attach,
@@ -191,20 +147,6 @@ return {
           }
         }
       })
-      --
-      -- -- Ruby standardrb
-      -- lspconfig.standardrb.setup({
-      --   autostart = false,
-      --   capabilities = capabilities,
-      --   on_attach = on_attach,
-      --   cmd = { "bundle", "exec", "standardrb", "--lsp" },
-      --   settings = {
-      --     standardrb = {
-      --       diagnostics = true,
-      --       formatting = true,
-      --     }
-      --   }
-      -- })
 
       -- Typescript
       lspconfig.tsserver.setup({
@@ -248,22 +190,6 @@ return {
         on_attach = on_attach,
       })
 
-      -- Markdown and writing related lsps
-      lspconfig.ltex.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = {
-          ltex= {
-            language = "en-GB",
-          },
-        },
-      })
-
-      lspconfig.marksman.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
       -- Dockerfile LSP
       lspconfig.dockerls.setup({
         capabilities = capabilities,
@@ -287,13 +213,16 @@ return {
     }
   }, {
     "j-hui/fidget.nvim",
-    tag = "legacy",
     event = "LspAttach",
     opts = {
-      text = {
-        spinner = {"󱑖","󱑋","󱑌","󱑍","󱑎","󱑏","󱑐","󱑑","󱑒","󱑓","󱑔","󱑕"},
-        done = "󰄭",
+      progress = {
+        display = {
+          done_icon = "󰄭",
+          progress_icon = {
+            pattern = {"󱑖","󱑋","󱑌","󱑍","󱑎","󱑏","󱑐","󱑑","󱑒","󱑓","󱑔","󱑕"},
+          },
+        },
       },
     },
-  },
+  }
 }
