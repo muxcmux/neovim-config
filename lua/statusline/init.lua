@@ -2,16 +2,16 @@ local M = {}
 
 function M.statusline()
   local parts = {
-    [[%{luaeval("require'statusline'.diagnostic_status()")} ]],
+    [[%< %{luaeval("require'statusline'.file_or_lsp_status()")} ]],
 
-    [[%<%{luaeval("require'statusline'.file_or_lsp_status()")} ]],
+    [[%m%r ]],
 
     [[%<%{luaeval("require'statusline'.dap_status()")} ]],
 
     -- switch to the right side
     "%=",
 
-    [[%m%r ]],
+    [[%{%luaeval("require'statusline'.diagnostic_status()")%} ]],
 
     -- %# starts a highlight group; Another # indicates the end of the highlight group name
     -- This causes the next content to display in colors (depending on the color scheme)
@@ -71,20 +71,30 @@ end
 
 function M.diagnostic_status()
   local status = {}
-  -- count the number of diagnostics with severity warning
-  local num_errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-  -- If there are any errors only show the error count, don't include the number of warnings
-  if num_errors > 0 then
-    table.insert(status, ' 💀 ' .. num_errors)
+  local groups = {
+    Error = vim.diagnostic.severity.ERROR,
+    Warn = vim.diagnostic.severity.WARN,
+    Hint = vim.diagnostic.severity.HINT,
+    Info = vim.diagnostic.severity.INFO,
+  }
+
+  local bg = vim.api.nvim_get_hl(0, { name = 'StatusLine' }).bg
+
+  for type, severity in pairs(groups) do
+    local fg = vim.api.nvim_get_hl(0, { name = 'DiagnosticSign' .. type}).fg
+    vim.api.nvim_set_hl(0, 'StatusLineDiagnostics' .. type, { fg = fg, bg = bg })
+
+    local num = #vim.diagnostic.get(0, { severity = severity })
+
+    if num > 0 then
+      table.insert(status, ' %#StatusLineDiagnostics' .. type .. '#●%* ' .. num)
+    end
   end
-  -- Otherwise show amount of warnings, or nothing if there aren't any.
-  local num_warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-  if num_warnings > 0 then
-    table.insert(status, ' 💩 ' .. num_warnings)
-  end
+
   if #status > 0 then
     return ' ' .. table.concat(status, ' ') .. '  '
   end
+
   return ''
 end
 
