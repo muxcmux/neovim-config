@@ -3,7 +3,7 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     keys = {
-      { "<leader>\\", ":Neotree toggle<cr>", desc = "NeoTree" },
+      { "<leader>\\", ":Neotree toggle<cr>", desc = "NeoTree", silent = true },
     },
     opts = {
       close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
@@ -72,7 +72,7 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
     keys = {
-      { "-", ":Oil<CR>", desc = "Open parent dir for editing in a buffer" },
+      { "-", ":Oil<CR>", desc = "Open parent dir for editing in a buffer", silent = true },
     },
   },
 }
