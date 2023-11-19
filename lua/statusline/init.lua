@@ -50,7 +50,7 @@ function M.file_or_lsp_status()
 
   local percentage
   local result = {}
-  local symbols = {"󰝦", "󰪞", "󰪟", "󰪠", "󰪡", "󰪢", "󰪣", "󰪤", "󰪥"}
+  local symbols = {"󰝦", "󰪞", "󰪟", "󰪠", "󰪡", "󰪢", "󰪣", "󰪤"}
   local slice = 100 / #symbols
   -- Messages can have a `title`, `message` and `percentage` property
   -- The logic here renders all messages into a stringle string
