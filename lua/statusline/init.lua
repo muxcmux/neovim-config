@@ -50,6 +50,8 @@ function M.file_or_lsp_status()
 
   local percentage
   local result = {}
+  local symbols = {"󰝦", "󰪞", "󰪟", "󰪠", "󰪡", "󰪢", "󰪣", "󰪤", "󰪥"}
+  local slice = 100 / #symbols
   -- Messages can have a `title`, `message` and `percentage` property
   -- The logic here renders all messages into a stringle string
   for _, msg in pairs(messages) do
@@ -62,8 +64,11 @@ function M.file_or_lsp_status()
       percentage = math.max(percentage or 0, msg.percentage)
     end
   end
+
+  vim.schedule(function() vim.api.nvim_command("redrawstatus") end)
+
   if percentage then
-    return string.format('%03d: %s', percentage, table.concat(result, ', '))
+    return string.format('%s %s', symbols[math.min(math.modf(percentage / slice) + 1, #symbols)], table.concat(result, ', '))
   else
     return table.concat(result, ', ')
   end
