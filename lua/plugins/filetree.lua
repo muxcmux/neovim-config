@@ -68,9 +68,11 @@ return {
   -- Oil.nvim
   {
     'stevearc/oil.nvim',
-    opts = {},
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
+    opts = {
+      skip_confirm_for_simple_edits = true,
+    },
     keys = {
       { "-", ":Oil<CR>", desc = "Open parent dir for editing in a buffer", silent = true },
     },

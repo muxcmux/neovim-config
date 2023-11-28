@@ -37,5 +37,11 @@ return {
       require('nvim-treesitter.configs').setup(opts)
     end,
     dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
-  },
+  }, {
+    'DariusCorvus/tree-sitter-surrealdb.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter'},
+    config = function()
+      require('tree-sitter-surrealdb').setup()
+    end,
+  }
 }
