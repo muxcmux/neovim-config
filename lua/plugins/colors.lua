@@ -38,8 +38,23 @@ return {
     "catppuccin/nvim",
     lazy = true,
     opts = {
-      dim_inactive = {
-        enabled = false,
+      integrations = {
+        neotest = true,
+        neotree = true,
+        mason = true,
+        lsp_trouble = true,
+        native_lsp = {
+          inlay_hints = {
+            background = false,
+          },
+        },
+      },
+      highlight_overrides = {
+        latte = function(colors)
+          return {
+            WinSeparator = { fg = colors.blue },
+          }
+        end,
       },
     },
     config = function(_, opts)
