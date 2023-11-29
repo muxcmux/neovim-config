@@ -14,7 +14,16 @@ return {
     lazy = true,
     config = {
       compile = true,
-      dimInactive = true,
+      overrides = function(colors)
+        local theme = colors.theme
+        return {
+            Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 },
+            PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
+            PmenuSbar = { bg = theme.ui.bg_m1 },
+            PmenuThumb = { bg = theme.ui.bg_p2 },
+            WinSeparator = { fg = theme.ui.whitespace },
+        }
+    end,
       colors = {
         theme = {
           all = {
@@ -30,7 +39,7 @@ return {
     lazy = true,
     opts = {
       dim_inactive = {
-        enabled = true,
+        enabled = false,
       },
     },
     config = function(_, opts)
