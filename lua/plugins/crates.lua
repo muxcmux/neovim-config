@@ -10,6 +10,8 @@ return {
       group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
       pattern = "Cargo.toml",
       callback = function()
+        vim.api.nvim_buf_set_keymap(0, 'n', 'K', ":lua require('crates').show_popup()<cr>", { silent = true })
+
         local cmp = require("cmp")
         cmp.setup.buffer({ sources = { { name = "crates" } } })
       end,
