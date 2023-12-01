@@ -128,7 +128,6 @@ local cmt_diagnostics = function(current_buf, ns)
   local query = vim.treesitter.query.parse(
     "ruby",
     [[
-  ;; query
   (call
     method: (identifier) @method (#eq? @method "source")
     arguments: (argument_list
