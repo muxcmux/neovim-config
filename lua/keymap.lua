@@ -27,6 +27,12 @@ key.set("v", "<C-r>", [["hy:%s/<C-r>h//gc<left><left><left>]])
 key.set("n", "<leader>n", ":cnext<CR>", { silent = true })
 key.set("n", "<leader>p", ":cprev<CR>", { silent = true })
 
+-- navigate splits with arrow keys in normal mode
+key.set("n", "<Up>", ":wincmd k<CR>", { silent = true})
+key.set("n", "<Down>", ":wincmd j<CR>", { silent = true})
+key.set("n", "<Left>", ":wincmd h<CR>", { silent = true})
+key.set("n", "<Right>", ":wincmd l<CR>", { silent = true})
+
 -- Disable annoying auto comment when going into
 -- insert mode with o or O from a commented line
 vim.api.nvim_create_autocmd("FileType", { pattern = "*", command = "set formatoptions-=o" })
