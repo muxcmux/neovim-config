@@ -62,6 +62,17 @@ return {
           vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
       end
 
+      -- only show the first line of the message in virtual text
+      -- this config has the lowest priprity and can be overwritten
+      -- by other plugins
+      vim.diagnostic.config({
+        virtual_text = {
+          format = function(diag)
+            return vim.split(diag.message, "\n")[1]
+          end,
+        },
+      })
+
       ------------------------------
       -- LSP Server configuration --
       ------------------------------
