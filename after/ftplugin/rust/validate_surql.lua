@@ -1,8 +1,3 @@
-local function log(data)
-  local bufnr = 15
-  vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, data)
-end
-
 local get_root = function(bufn)
   local parser = vim.treesitter.get_parser(bufn, "rust", {})
   local tree = parser:parse()[1]

@@ -1,8 +1,3 @@
-local function log(data)
-  local bufnr = 4
-  vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, data)
-end
-
 local get_cmt_bds = function(block, opts)
   local user = vim.env.CMT_API_STAGING_KEY
   local pass = vim.env.CMT_API_STAGING_SECRET
