@@ -33,8 +33,8 @@ return {
           { name = 'nvim_lsp' },
           { name = 'nvim_lua' },
           { name = 'luasnip' },
-          { name = 'buffer' },
           { name = 'path' },
+          { name = 'buffer', keyword_length = 5, max_item_count = 10 },
         },
         mapping = {
           ["<C-Space>"] = cmp.mapping.complete(),
@@ -50,8 +50,16 @@ return {
         },
         formatting = {
           format = lspkind.cmp_format({
+            with_text = true,
             maxwidth = 50,
-            ellipsis_char = "…"
+            ellipsis_char = "…",
+            menu = {
+              buffer = "[buf]",
+              nvim_lsp = "[LSP]",
+              nvim_lua = "[api]",
+              path = "[path]",
+              luasnip = "[snip]",
+            },
           })
         },
       }

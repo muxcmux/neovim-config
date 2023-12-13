@@ -1,5 +1,9 @@
 local key = vim.keymap
 
+-- Diagnostics navigation
+key.set("n", "]g", vim.diagnostic.goto_next, opts)
+key.set("n", "[g", vim.diagnostic.goto_prev, opts)
+
 -- Change Ctrl-e/y to move 5 lines at a time
 key.set("n", "<C-e>", "5<C-e>")
 key.set("n", "<C-y>", "5<C-y>")
