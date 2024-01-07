@@ -46,7 +46,9 @@ return {
             ["u"] = "navigate_up",
           }
         },
-        follow_current_file = true, -- This will find and focus the file in the active buffer every time
+        follow_current_file = {
+          enabled = true
+        }, -- This will find and focus the file in the active buffer every time
         use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
                                        -- instead of relying on nvim autocmd events.
         hijack_netrw_behaviour = "disabled",

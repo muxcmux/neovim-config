@@ -1,6 +1,7 @@
 local key = vim.keymap
 
 -- Diagnostics navigation
+local opts = { silent = true, noremap = true }
 key.set("n", "]g", vim.diagnostic.goto_next, opts)
 key.set("n", "[g", vim.diagnostic.goto_prev, opts)
 
