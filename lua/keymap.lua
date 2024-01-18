@@ -4,6 +4,11 @@ local key = vim.keymap
 local opts = { silent = true, noremap = true }
 key.set("n", "]g", vim.diagnostic.goto_next, opts)
 key.set("n", "[g", vim.diagnostic.goto_prev, opts)
+key.set("n", "<leader>e", ":Trouble document_diagnostics<CR>", opts)
+key.set("n", "<leader>we", ":Trouble workspace_diagnostics<CR>", opts)
+key.set("n", "<leader>q", ":TroubleClose<CR>:cclose<CR>", opts)
+-- Common LSP maps
+key.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, opts)
 
 -- Change Ctrl-e/y to move 5 lines at a time
 key.set("n", "<C-e>", "5<C-e>")
