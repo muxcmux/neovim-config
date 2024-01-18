@@ -2,7 +2,7 @@
 local key = vim.keymap
 
 local highlight_symbol_under_cursor = function(client, bufnr)
-  if client.supports_method "textDocument/documentHighlight" then
+  if client.supports_method("textDocument/documentHighlight") and client.server_capabilities.documentHighlightProvider then
     vim.api.nvim_create_augroup("lsp_document_highlight", {
       clear = false,
     })
@@ -32,8 +32,6 @@ local keymaps = function(bufnr)
   key.set("n", "gt", ":Trouble lsp_type_definitions<CR>", opts)
   key.set("n", "<leader>f",vim.lsp.buf.format, opts)
   key.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-  key.set("n", "]g", vim.diagnostic.goto_next, opts)
-  key.set("n", "[g", vim.diagnostic.goto_prev, opts)
   key.set("n", "K", vim.lsp.buf.hover, opts)
   key.set('n', '<space>K', vim.lsp.buf.signature_help, opts)
 end
