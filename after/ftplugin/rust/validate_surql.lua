@@ -8,8 +8,10 @@ local surreal_diagnostics = function(current_buf, ns)
   local query = vim.treesitter.query.parse(
     "rust",
     [[
+    (
       (raw_string_literal) @query
       (#match? @query "-- surql")
+    )
     ]]
   )
 
