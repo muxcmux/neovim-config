@@ -7,10 +7,12 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     )
     local client = vim.lsp.start({
       name = "cmt",
-      cmd = { "cargo", "run" },
-      -- cmd = { "target/release/cmt_ls" },
+      -- cmd = { "cargo", "run" },
+      cmd = { "cmt_ls" },
       root_dir = root_dir,
     })
-    vim.lsp.buf_attach_client(0, client)
+    if client then
+      vim.lsp.buf_attach_client(0, client)
+    end
   end
 })
