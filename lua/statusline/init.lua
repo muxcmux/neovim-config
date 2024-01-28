@@ -131,7 +131,7 @@ function M.buffer_name(uri)
   -- any other file
   else
     local file = vim.fn.fnamemodify(vim.uri_to_fname(uri), ':.')
-    local icon = require'nvim-web-devicons'.get_icon(uri) or ''
+    local icon = require'nvim-web-devicons'.get_icon(file) or ''
     return string.format('%s %s', icon, file)
   end
 end
