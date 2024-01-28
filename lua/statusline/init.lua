@@ -1,10 +1,40 @@
+require('lsp-progress').setup({
+  spin_update_time = 110,
+  spinner = { "󱑖", "󱑋", "󱑌", "󱑍", "󱑎", "󱑏", "󱑐", "󱑑", "󱑒", "󱑓", "󱑔", "󱑕" },
+  format = function(client_messages)
+    if #client_messages > 0 then
+        return table.concat(client_messages, " ")
+    end
+    return ""
+  end,
+  client_format = function(client_name, spinner, series_messages)
+    return #series_messages > 0
+        and (spinner .. " " .. client_name .. ": " .. table.concat(
+          series_messages,
+          ", "
+        ))
+    or nil
+  end,
+})
+
+vim.api.nvim_create_augroup("LspProgressUpdatedStatusLineGroup", { clear = true })
+vim.api.nvim_create_autocmd("user", {
+  group = "LspProgressUpdatedStatusLineGroup",
+  pattern = "LspProgressStatusUpdated",
+  callback = function()
+    vim.schedule(function() vim.cmd("redrawstatus") end)
+  end,
+})
+
 local M = {}
 
 function M.statusline()
   local parts = {
-    [[%< %{luaeval("require'statusline'.file_or_lsp_status()")} ]],
+    [[ %{luaeval("require'statusline'.buffer_name()")} ]],
 
     [[%m%r ]],
+
+    [[%> %{luaeval("require'lsp-progress'.progress()")} ]],
 
     [[%<%{luaeval("require'statusline'.dap_status()")} ]],
 
@@ -34,46 +64,6 @@ function M.statusline()
   }
 
   return table.concat(parts, '')
-end
-
-local api = vim.api
-
-function M.file_or_lsp_status()
-  -- Neovim keeps the messages sent from the language server in a buffer and
-  -- get_progress_messages polls the messages
-  local messages = vim.lsp.util.get_progress_messages()
-  local mode = api.nvim_get_mode().mode
-
-  -- If neovim isn't in normal mode, or if there are no messages from the
-  -- language server display the file name
-  if mode ~= 'n' or vim.tbl_isempty(messages) then
-    return M.buffer_name(vim.uri_from_bufnr(api.nvim_get_current_buf()))
-  end
-
-  local percentage
-  local result = {}
-  local symbols = {"󰝦", "󰪞", "󰪟", "󰪠", "󰪡", "󰪢", "󰪣", "󰪤"}
-  local slice = 100 / #symbols
-  -- Messages can have a `title`, `message` and `percentage` property
-  -- The logic here renders all messages into a stringle string
-  for _, msg in pairs(messages) do
-    if msg.message then
-      table.insert(result, msg.title .. ': ' .. msg.message)
-    else
-      table.insert(result, msg.title)
-    end
-    if msg.percentage then
-      percentage = math.max(percentage or 0, msg.percentage)
-    end
-  end
-
-  vim.schedule(function() vim.api.nvim_command("redrawstatus") end)
-
-  if percentage then
-    return string.format('%s %s', symbols[math.min(math.modf(percentage / slice) + 1, #symbols)], table.concat(result, ', '))
-  else
-    return table.concat(result, ', ')
-  end
 end
 
 function M.diagnostic_status()
@@ -118,7 +108,8 @@ function M.dap_status()
   return ''
 end
 
-function M.buffer_name(uri)
+function M.buffer_name()
+  local uri = vim.uri_from_bufnr(vim.api.nvim_get_current_buf())
   -- [No name]
   if uri == 'file://' then
     return ''

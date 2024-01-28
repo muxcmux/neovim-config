@@ -215,6 +215,7 @@ return {
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'onsails/lspkind.nvim',
+      'linrongbin16/lsp-progress.nvim',
     },
   },
 }
