@@ -1,5 +1,4 @@
 return function(INPUT_LINE_NUMBER, CURSOR_LINE, CURSOR_COLUMN)
-  print('kitty sent:', INPUT_LINE_NUMBER, CURSOR_LINE, CURSOR_COLUMN)
   vim.opt.encoding='utf-8'
   vim.opt.clipboard = 'unnamed'
   vim.opt.compatible = false
@@ -16,7 +15,12 @@ return function(INPUT_LINE_NUMBER, CURSOR_LINE, CURSOR_COLUMN)
   local term_io = vim.api.nvim_open_term(term_buf, {})
   vim.api.nvim_buf_set_keymap(term_buf, 'n', 'q', '<Cmd>q<CR>', { })
   vim.api.nvim_buf_set_keymap(term_buf, 'n', '<ESC>', '<Cmd>q<CR>', { })
+  vim.api.nvim_buf_set_keymap(term_buf, 'v', 'y', 'y<Cmd>q<CR>', { })
   local group = vim.api.nvim_create_augroup('kitty+page', {})
+
+  vim.cmd [[
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup=(vim.fn['hlexists']('HighlightedyankRegion') > 0 and 'HighlightedyankRegion' or 'IncSearch'), timeout=180}
+  ]]
 
   local setCursor = function()
     vim.api.nvim_feedkeys(tostring(INPUT_LINE_NUMBER) .. [[ggzt]], 'n', true)
