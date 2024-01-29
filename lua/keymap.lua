@@ -42,6 +42,10 @@ key.set("n", "<Up>", ":wincmd k<CR>", { silent = true})
 key.set("n", "<Down>", ":wincmd j<CR>", { silent = true})
 key.set("n", "<Left>", ":wincmd h<CR>", { silent = true})
 key.set("n", "<Right>", ":wincmd l<CR>", { silent = true})
+key.set("n", "<S-Up>", ":res +1<CR>", { silent = true})
+key.set("n", "<S-Down>", ":res -1 j<CR>", { silent = true})
+key.set("n", "<S-Left>", ":vertical res +1<CR>", { silent = true})
+key.set("n", "<S-Right>", ":vertical res -1<CR>", { silent = true})
 
 -- Disable annoying auto comment when going into
 -- insert mode with o or O from a commented line
