@@ -1,5 +1,33 @@
+-- configure the signs in the sign column and the virtual text
+-- local signs = { Error = "", Warn = "", Hint = "󰌵", Info = "" }
+-- for type, icon in pairs(signs) do
+--     local hl = "DiagnosticSign" .. type
+--     vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
+-- end
+
+-- general diagnostics configuration
+vim.diagnostic.config({
+  signs = false,
+  virtual_text = {
+    format = function(diag)
+      return vim.split(diag.message, "\n")[1]
+    end,
+  },
+})
+
 -- LSP Keymaps
-local key = vim.keymap
+local keymaps = function(bufnr)
+  local opts = { silent = true, noremap = true, buffer = bufnr }
+
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+  vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+  vim.keymap.set("n", "gi", ":Trouble lsp_implementations<CR>", opts)
+  vim.keymap.set("n", "gt", ":Trouble lsp_type_definitions<CR>", opts)
+  vim.keymap.set("n", "<leader>f",vim.lsp.buf.format, opts)
+  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', '<space>K', vim.lsp.buf.signature_help, opts)
+end
 
 local highlight_symbol_under_cursor = function(client, bufnr)
   if client.supports_method("textDocument/documentHighlight") and client.server_capabilities.documentHighlightProvider then
@@ -23,49 +51,51 @@ local highlight_symbol_under_cursor = function(client, bufnr)
   end
 end
 
-local keymaps = function(bufnr)
-  local opts = { silent = true, noremap = true, buffer = bufnr }
-
-  key.set("n", "gd", vim.lsp.buf.definition, opts)
-  key.set("n", "gr", vim.lsp.buf.references, opts)
-  key.set("n", "gi", ":Trouble lsp_implementations<CR>", opts)
-  key.set("n", "gt", ":Trouble lsp_type_definitions<CR>", opts)
-  key.set("n", "<leader>f",vim.lsp.buf.format, opts)
-  key.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-  key.set("n", "K", vim.lsp.buf.hover, opts)
-  key.set('n', '<space>K', vim.lsp.buf.signature_help, opts)
-end
-
 local on_attach = function(client, bufnr)
   keymaps(bufnr)
   highlight_symbol_under_cursor(client, bufnr)
 end
 
+-- Because  is fucking special
+-- decide which LSP to start based on some heuristics
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  group = vim.api.nvim_create_augroup("RubyLsFiletype", { clear = true }),
+  pattern = { "Gemfile", "Rakefile", "*.rb" },
+  callback = function()
+    local gemfile = vim.fs.find("Gemfile", { upward = true })[1]
+    if gemfile then
+      vim.cmd("LspStart ruby_ls")
+      vim.fn.jobstart({ "rg", "standard", "Gemfile" }, {
+        cwd = vim.fs.dirname(gemfile),
+        on_exit = function(_, code)
+          if code == 0 then
+            vim.cmd("LspStart standardrb")
+          else
+            vim.fn.jobstart({ "rg", "rubocop", "Gemfile" }, {
+              cwd = vim.fs.dirname(gemfile),
+              on_exit = function(_, c)
+                if c == 0 then
+                  vim.cmd("LspStart rubocop")
+                end
+              end,
+            })
+          end
+        end
+      })
+    else
+      vim.cmd("LspStart standardrb")
+    end
+  end
+})
+
 return {
   {
     'neovim/nvim-lspconfig',
     event = { "BufReadPre", "BufNewFile" },
+    cmd = { "LspStart" },
     config = function()
       require("mason").setup()
       require("mason-lspconfig").setup()
-
-      -- configure the signs in the sign column and the virtual text
-      local signs = { Error = "", Warn = "", Hint = "󰌵", Info = "" }
-      for type, icon in pairs(signs) do
-          local hl = "DiagnosticSign" .. type
-          vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
-      end
-
-      -- only show the first line of the message in virtual text
-      -- this config has the lowest priprity and can be overwritten
-      -- by other plugins
-      vim.diagnostic.config({
-        virtual_text = {
-          format = function(diag)
-            return vim.split(diag.message, "\n")[1]
-          end,
-        },
-      })
 
       ------------------------------
       -- LSP Server configuration --
@@ -139,18 +169,31 @@ return {
 
       -- Ruby
       lspconfig.ruby_ls.setup({
+        autostart = false,
+        capabilities = capabilities,
+        on_attach = on_attach,
+        handlers = {
+          ["textDocument/diagnostic"] = function() end,
+          ["textDocument/documentHighlight"] = function() end,
+        }
+      })
+
+      lspconfig.standardrb.setup({
+        autostart = false,
         capabilities = capabilities,
         on_attach = on_attach,
       })
-      lspconfig.solargraph.setup({
+
+      lspconfig.rubocop.setup({
+        autostart = false,
         capabilities = capabilities,
         on_attach = on_attach,
-        settings = {
-          solargraph = {
-            diagnostics = true,
-            completion = true,
-          }
-        }
+      })
+
+      -- Python
+      lspconfig.pyright.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
       })
 
       -- Typescript
