@@ -1,6 +1,6 @@
 local opt = vim.opt
 
-opt.termguicolors  = true
+opt.termguicolors  = false
 opt.confirm        = true
 -- opt.showmode       = false
 opt.errorbells     = true

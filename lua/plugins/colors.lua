@@ -9,18 +9,54 @@
 --   }
 -- }
 
+-- local function extend_hl(name, options)
+--   local existing = vim.api.nvim_get_hl(0, { name = name })
+--   vim.api.nvim_set_hl(0, name, vim.tbl_deep_extend("force", existing, options))
+-- end
+
 return {
   {
+    'xiyaowong/transparent.nvim',
+    config = function()
+      require("transparent").setup({
+        exclude_groups = { "StatusLine" },
+      })
+      -- highlight groups
+      -- local diff_add = vim.api.nvim_get_hl(0, { name = "DiffAdd" })
+      -- local diff_delete = vim.api.nvim_get_hl(0, { name = "DiffDelete" })
+      -- local diff_change = vim.api.nvim_get_hl(0, { name = "DiffChange" })
+
+      -- vim.api.nvim_set_hl(0, 'GitSignsAdd', { fg = diff_add.bg, bg = "none"})
+      -- vim.api.nvim_set_hl(0, 'GitSignsDelete', { fg = diff_delete.bg, bg = "none"})
+      -- vim.api.nvim_set_hl(0, 'GitSignsChange', { fg = diff_change.bg, bg = "none"})
+
+      -- extend_hl('DiagnosticUnderlineError', { undercurl = true })
+      -- extend_hl('DiagnosticUnderlineInfo', { undercurl = true })
+      -- extend_hl('DiagnosticUnderlineHint', { undercurl = true })
+      -- extend_hl('DiagnosticUnderlineWarn', { undercurl = true })
+    end,
+  }, {
     'mcchrish/zenbones.nvim',
     lazy = false,
+    branch = "main",
     config = function()
-      if string.find(vim.fn.system('defaults read -g AppleInterfaceStyle'), "Dark") then
-        vim.cmd("set bg=dark")
-        vim.cmd("colorscheme kanagawabones")
-      else
-        vim.cmd("set bg=light")
-        vim.cmd("colorscheme zenbones")
-      end
+      -- if string.find(vim.fn.system('defaults read -g AppleInterfaceStyle'), "Dark") then
+      --   vim.cmd("set bg=dark")
+      --   vim.cmd("colorscheme kanagawabones")
+      -- else
+      --   vim.cmd("set bg=light")
+      --   vim.cmd("colorscheme zenbones")
+      -- end
+
+      vim.cmd("colorscheme randombones")
+      vim.opt.termguicolors  = true
+
+      vim.keymap.set("n", "<leader>z", function()
+        vim.cmd("colorscheme randombones")
+        print(vim.g.randombones_colors_name)
+      end, { silent = true })
+
+      print(vim.g.randombones_colors_name)
     end,
     dependencies = {
       'rktjmp/lush.nvim'

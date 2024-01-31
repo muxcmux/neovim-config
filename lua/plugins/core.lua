@@ -2,7 +2,7 @@ return {
   -- Automatically close paired brackets and quotes
   {
     'windwp/nvim-autopairs',
-    event = { "VeryLazy" },
+    event = "InsertEnter",
     opts = {
       check_ts = true,
       map_cr = true,

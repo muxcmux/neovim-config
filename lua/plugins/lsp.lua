@@ -91,7 +91,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
 return {
   {
     'neovim/nvim-lspconfig',
-    event = { "BufReadPre", "BufNewFile" },
+    -- event = { "BufReadPre", "BufNewFile" },
     cmd = { "LspStart" },
     config = function()
       require("mason").setup()
