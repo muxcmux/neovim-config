@@ -26,6 +26,13 @@ end
 -- Exit insert mode by typing jk in quick succession
 key.set("i", "jk", "<Esc>")
 
+-- Switch between last two buffers with double space
+key.set("n", "<leader><leader>", "<C-^>")
+
+-- Start and end of line with control h/l
+key.set({ "v", "n", "i" }, "<C-l>", "<End>")
+key.set({ "v", "n", "i" }, "<C-h>", "<Home>")
+
 -- Keep selection when indenting
 key.set("v", "<", "<gv")
 key.set("v", ">", ">gv")

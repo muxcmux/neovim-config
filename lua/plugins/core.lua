@@ -1,12 +1,11 @@
 return {
   -- Automatically close paired brackets and quotes
   {
-    'windwp/nvim-autopairs',
-    event = "InsertEnter",
-    opts = {
-      check_ts = true,
-      map_cr = true,
-    },
+    'altermo/ultimate-autopair.nvim',
+    event = { "InsertEnter", "CmdlineEnter" },
+    config = function()
+      require('ultimate-autopair').setup()
+    end
   },
 
   -- Align stuff
