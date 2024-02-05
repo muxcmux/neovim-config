@@ -1,25 +1,22 @@
 return {
   'saecki/crates.nvim',
   event = { "BufRead Cargo.toml" },
-  dependencies = {
-    'nvim-lua/plenary.nvim',
-    'hrsh7th/nvim-cmp',
-  },
+  dependencies = { 'nvim-lua/plenary.nvim' },
   config = function()
-    vim.api.nvim_create_autocmd("BufRead", {
-      group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
-      pattern = "Cargo.toml",
-      callback = function()
-        vim.api.nvim_buf_set_keymap(0, 'n', 'K', ":lua require('crates').show_popup()<cr>", { silent = true })
-
-        local cmp = require("cmp")
-        cmp.setup.buffer({ sources = { { name = "crates" } } })
-      end,
-    })
     require('crates').setup({
       src = {
         cmp = { enabled = true }
-      }
+      },
+      lsp = {
+        enabled = true,
+        on_attach = function(_, bufnr)
+          local opts = { silent = true, noremap = true, buffer = bufnr }
+          vim.keymap.set('n', 'K', require("crates").show_popup, opts)
+        end,
+        actions = true,
+        completion = true,
+        hover = true,
+      },
     })
   end,
 }

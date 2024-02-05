@@ -30,7 +30,7 @@ return {
         find_files = {
           -- find_command = { "rg", "--files", "--hidden" },
           find_command = { "fd", "--type", "file", "--follow", "--hidden", "--exclude", ".git" },
-          -- theme = "ivy",
+          theme = "ivy",
           previewer = false,
           layout_config = {
             height = 0.3,
