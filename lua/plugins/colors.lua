@@ -56,7 +56,7 @@ return {
         print(vim.g.randombones_colors_name)
       end, { silent = true })
 
-      print(vim.g.randombones_colors_name)
+      vim.schedule(function() print(vim.g.randombones_colors_name) end)
     end,
     dependencies = {
       'rktjmp/lush.nvim'
