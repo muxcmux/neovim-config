@@ -31,7 +31,8 @@ key.set("n", "<leader><leader>", "<C-^>")
 
 -- Start and end of line with control h/l
 key.set({ "v", "n", "i" }, "<C-l>", "<End>")
-key.set({ "v", "n", "i" }, "<C-h>", "<Home>")
+key.set({ "v", "n" }, "<C-h>", "^")
+key.set("i", "<C-h>", "<Esc>^i")
 
 -- Keep selection when indenting
 key.set("v", "<", "<gv")
