@@ -42,9 +42,8 @@ opt.splitbelow     = true
 
 vim.g.mapleader = " "
 
--- get rid of netrw
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+-- get rid of netrw banner
+vim.g.netrw_banner = 0
 
 -- higlighted yank
 vim.cmd [[
