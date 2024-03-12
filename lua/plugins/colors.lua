@@ -36,7 +36,7 @@ return {
       -- extend_hl('DiagnosticUnderlineWarn', { undercurl = true })
     end,
   }, {
-    'mcchrish/zenbones.nvim',
+    'muxcmux/zenbones.nvim',
     lazy = false,
     branch = "main",
     config = function()

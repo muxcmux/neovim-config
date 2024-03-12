@@ -13,7 +13,7 @@ return {
   -- },
   {
     'echasnovski/mini.files',
-    lazy = false,
+    lazy = true,
     opts = {
       mappings = {
         go_in_plus = "<CR>",
