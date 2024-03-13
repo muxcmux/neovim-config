@@ -45,6 +45,8 @@ function M.statusline()
 
     [[%P ]],
 
+    [[  %3{codeium#GetStatusString()} ]],
+
     -- %# starts a highlight group; Another # indicates the end of the highlight group name
     -- This causes the next content to display in colors (depending on the color scheme)
     "%#warningmsg#",
