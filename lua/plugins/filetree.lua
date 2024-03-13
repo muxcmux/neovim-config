@@ -1,14 +1,31 @@
+local show_dotfiles = false
+
+local filter_show = function(_)
+  return true
+end
+
+local filter_hide = function(fs_entry)
+  return not vim.startswith(fs_entry.name, ".")
+end
+
+local new_filter = function()
+  return show_dotfiles and filter_show or filter_hide
+end
+
 return {
   {
     "echasnovski/mini.files",
-    -- lazy = true,
     keys = {
       {
         "-",
         function()
           local mf = require("mini.files")
           mf.open(vim.api.nvim_buf_get_name(0))
-          mf.refresh { content = { filter = function(fs_entry) return not vim.startswith(fs_entry.name, ".") end } }
+          mf.refresh({
+            content = {
+              filter = new_filter()
+            }
+          })
         end,
         desc = "Open filetree",
         silent = true,
@@ -23,20 +40,9 @@ return {
         },
       })
 
-      local show_dotfiles = false
-
-      local filter_show = function(_)
-        return true
-      end
-
-      local filter_hide = function(fs_entry)
-        return not vim.startswith(fs_entry.name, ".")
-      end
-
       local toggle_dotfiles = function()
         show_dotfiles = not show_dotfiles
-        local new_filter = show_dotfiles and filter_show or filter_hide
-        mf.refresh { content = { filter = new_filter } }
+        mf.refresh { content = { filter = new_filter() } }
       end
 
       local open_in_vertical_split = function()
