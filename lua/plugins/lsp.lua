@@ -64,7 +64,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   callback = function()
     local gemfile = vim.fs.find("Gemfile", { upward = true })[1]
     if gemfile then
-      vim.cmd("LspStart ruby_ls")
+      vim.cmd("LspStart ruby_lsp")
       vim.fn.jobstart({ "rg", "standard", "Gemfile" }, {
         cwd = vim.fs.dirname(gemfile),
         on_exit = function(_, code)
@@ -168,7 +168,7 @@ return {
       })
 
       -- Ruby
-      lspconfig.ruby_ls.setup({
+      lspconfig.ruby_lsp.setup({
         autostart = false,
         capabilities = capabilities,
         on_attach = on_attach,

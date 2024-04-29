@@ -9,6 +9,7 @@ return {
         mappings = {
           i = {
             ["<C-o>"] = actions.send_selected_to_qflist + actions.open_qflist,
+            ["<Esc>"] = actions.close,
           },
           n = {
             ["<C-o>"] = actions.send_selected_to_qflist + actions.open_qflist,

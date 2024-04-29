@@ -64,8 +64,8 @@ return {
           vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id })
           vim.keymap.set("n", "-", mf.close, { buffer = buf_id })
           vim.keymap.set("n", "<Esc>", mf.close, { buffer = buf_id })
-          vim.keymap.set("n", "<C-v>", open_in_vertical_split)
-          vim.keymap.set("n", "<C-x>", open_in_horizontal_split)
+          vim.keymap.set("n", "<C-v>", open_in_vertical_split, { buffer = buf_id })
+          vim.keymap.set("n", "<C-x>", open_in_horizontal_split, { buffer = buf_id })
         end,
       })
     end
