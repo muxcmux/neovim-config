@@ -22,10 +22,6 @@ return {
 
   -- tpope, because he is awesome
   {
-    'tpope/vim-commentary',
-    event = { "VeryLazy" },
-  },
-  {
     'tpope/vim-surround',
     event = { "VeryLazy" },
   },

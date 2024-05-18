@@ -2,8 +2,6 @@ local key = vim.keymap
 
 -- Diagnostics navigation
 local opts = { silent = true, noremap = true }
-key.set("n", "]g", vim.diagnostic.goto_next, opts)
-key.set("n", "[g", vim.diagnostic.goto_prev, opts)
 key.set("n", "<leader>e", ":Trouble document_diagnostics<CR>", opts)
 key.set("n", "<leader>we", ":Trouble workspace_diagnostics<CR>", opts)
 key.set("n", "<leader>q", ":TroubleClose<CR>:cclose<CR>", opts)
@@ -60,16 +58,9 @@ key.set("n", "<S-Right>", ":vertical res -1<CR>", { silent = true})
 vim.api.nvim_create_autocmd("FileType", { pattern = "*", command = "set formatoptions-=o" })
 
 -- Option + j/k to move line or selection up or down
--- very Mac specific shit
-key.set("n", "∆"    , ":m .+1<CR>=="       , { silent = true })
-key.set("n", "˚"    , ":m .-2<CR>=="       , { silent = true })
 key.set("n", "<M-j>", ":m .+1<CR>=="       , { silent = true })
 key.set("n", "<M-k>", ":m .-2<CR>=="       , { silent = true })
-key.set("i", "∆"    , "<Esc>:m .+1<CR>==gi", { silent = true })
-key.set("i", "˚"    , "<Esc>:m .-2<CR>==gi", { silent = true })
 key.set("i", "<M-j>", "<Esc>:m .+1<CR>==gi", { silent = true })
 key.set("i", "<M-k>", "<Esc>:m .-2<CR>==gi", { silent = true })
-key.set("v", "∆"    , ":m '>+1<CR>gv=gv"   , { silent = true })
-key.set("v", "˚"    , ":m '<-2<CR>gv=gv"   , { silent = true })
 key.set("v", "<M-j>", ":m '>+1<CR>gv=gv"   , { silent = true })
 key.set("v", "<M-k>", ":m '<-2<CR>gv=gv"   , { silent = true })

@@ -13,6 +13,8 @@ return {
       },
     },
     keys = {
+      { "[g", ":Gitsigns prev_hunk<CR>", desc = "Previous hunk", silent = true },
+      { "]g", ":Gitsigns next_hunk<CR>", desc = "Next hunk", silent = true },
       { "<leader>hp", ":Gitsigns preview_hunk<CR>", desc = "Preview hunk", silent = true },
       { "<leader>hs", ":Gitsigns stage_hunk<CR>", desc = "Stage hunk", silent = true },
       { "<leader>hu", ":Gitsigns undo_stage_hunk<CR>", desc = "Undo stage hunk", silent = true },

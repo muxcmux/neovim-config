@@ -1,8 +1,6 @@
 local opt = vim.opt
 
-opt.termguicolors  = false
 opt.confirm        = true
--- opt.showmode       = false
 opt.errorbells     = true
 opt.expandtab      = true
 opt.shiftwidth     = 2

@@ -23,9 +23,8 @@ local keymaps = function(bufnr)
   vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
   vim.keymap.set("n", "gi", ":Trouble lsp_implementations<CR>", opts)
   vim.keymap.set("n", "gt", ":Trouble lsp_type_definitions<CR>", opts)
-  vim.keymap.set("n", "<leader>f",vim.lsp.buf.format, opts)
+  vim.keymap.set("n", "<leader>t", vim.lsp.buf.format, opts)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
   vim.keymap.set('n', '<space>K', vim.lsp.buf.signature_help, opts)
 end
 
