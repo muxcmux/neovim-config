@@ -2,6 +2,8 @@ local key = vim.keymap
 
 -- Diagnostics navigation
 local opts = { silent = true, noremap = true }
+key.set("n", "]d", function() vim.diagnostic.goto_next({float = true}) end, opts)
+key.set("n", "[d", function() vim.diagnostic.goto_prev({float = true}) end, opts)
 key.set("n", "<leader>e", ":Trouble document_diagnostics<CR>", opts)
 key.set("n", "<leader>we", ":Trouble workspace_diagnostics<CR>", opts)
 key.set("n", "<leader>q", ":TroubleClose<CR>:cclose<CR>", opts)
@@ -56,6 +58,15 @@ key.set("n", "<S-Right>", ":vertical res -1<CR>", { silent = true})
 -- Disable annoying auto comment when going into
 -- insert mode with o or O from a commented line
 vim.api.nvim_create_autocmd("FileType", { pattern = "*", command = "set formatoptions-=o" })
+
+-- Common mac shortcuts (requires kitty keyboard protocol)
+key.set("n", "<D-s>", ":w<CR>")
+key.set("i", "<D-s>", "<C-o>:w<CR>")
+key.set("v", "<D-s>", "<Esc>:w<CR>gv")
+key.set({ "n", "i", "v" }, "<D-a>", "<Esc>ggVG")
+key.set("n", "<D-c>", "\"+yy")
+key.set("i", "<D-c>", "<C-o>\"+yy")
+key.set("v", "<D-c>", "\"+y")
 
 -- Option + j/k to move line or selection up or down
 key.set("n", "<M-j>", ":m .+1<CR>=="       , { silent = true })
