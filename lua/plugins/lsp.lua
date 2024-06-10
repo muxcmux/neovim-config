@@ -21,8 +21,6 @@ local keymaps = function(bufnr)
 
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
   vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-  vim.keymap.set("n", "gi", ":Trouble lsp_implementations<CR>", opts)
-  vim.keymap.set("n", "gt", ":Trouble lsp_type_definitions<CR>", opts)
   vim.keymap.set("n", "<leader>t", vim.lsp.buf.format, opts)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set('n', '<space>K', vim.lsp.buf.signature_help, opts)
@@ -252,12 +250,25 @@ return {
     end,
 
     dependencies = {
-      'folke/trouble.nvim',
       'b0o/schemastore.nvim',
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'onsails/lspkind.nvim',
       'linrongbin16/lsp-progress.nvim',
     },
-  },
+  }, {
+    'folke/trouble.nvim',
+    cmd = "Trouble",
+    opts = {
+      focus = true,
+      indent_guides = false,
+      auto_refresh = false,
+    },
+    keys = {
+      { "gi", ":Trouble lsp_implementations<cr>", desc = "Implementations (Trouble)", },
+      { "gt", ":Trouble lsp_type_definitions<cr>", desc = "Type Definitions (Trouble)", },
+      { "<leader>e", ":Trouble diagnostics toggle filter.buf=0 auto_refresh=true<cr>", desc = "Document diagnostics (Trouble)" },
+      { "<leader>we", ":Trouble diagnostics toggle auto_refresh=true<cr>", desc = "Wordkspace diagnostics (Trouble)" },
+    }
+  }
 }

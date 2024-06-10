@@ -1,5 +1,6 @@
 local opt = vim.opt
 
+opt.termsync       = false
 opt.confirm        = true
 opt.errorbells     = true
 opt.expandtab      = true

@@ -4,9 +4,10 @@ local key = vim.keymap
 local opts = { silent = true, noremap = true }
 key.set("n", "]d", function() vim.diagnostic.goto_next({float = true}) end, opts)
 key.set("n", "[d", function() vim.diagnostic.goto_prev({float = true}) end, opts)
-key.set("n", "<leader>e", ":Trouble document_diagnostics<CR>", opts)
-key.set("n", "<leader>we", ":Trouble workspace_diagnostics<CR>", opts)
-key.set("n", "<leader>q", ":TroubleClose<CR>:cclose<CR>", opts)
+key.set("n", "<leader>q", function()
+  require("trouble").close({})
+  vim.cmd("cclose")
+end, opts)
 -- Common LSP maps
 key.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, opts)
 

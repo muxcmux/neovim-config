@@ -32,9 +32,8 @@ return {
           -- find_command = { "rg", "--files", "--hidden" },
           find_command = { "fd", "--type", "file", "--follow", "--hidden", "--exclude", ".git" },
           theme = "ivy",
-          previewer = false,
           layout_config = {
-            height = 0.3,
+            height = 0.5,
           },
         },
         live_grep = {
