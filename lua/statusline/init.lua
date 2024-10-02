@@ -36,7 +36,7 @@ function M.statusline()
 
     [[%> %{luaeval("require'lsp-progress'.progress()")} ]],
 
-    [[%<%{luaeval("require'statusline'.dap_status()")} ]],
+    -- [[%<%{luaeval("require'statusline'.dap_status()")} ]],
 
     -- switch to the right side
     "%=",
@@ -45,7 +45,7 @@ function M.statusline()
 
     [[%P ]],
 
-    [[  %3{codeium#GetStatusString()} ]],
+    -- [[  %3{codeium#GetStatusString()} ]],
 
     -- %# starts a highlight group; Another # indicates the end of the highlight group name
     -- This causes the next content to display in colors (depending on the color scheme)
@@ -97,18 +97,18 @@ function M.diagnostic_status()
   return ''
 end
 
-function M.dap_status()
-  if vim.fn.exists(':DapStepIn') > 0 then
-    local status = require'dap'.status()
-    if #status > 0 then
-      return '  ' .. string.format(' %s', status)
-    end
-
-    return ''
-  end
-
-  return ''
-end
+-- function M.dap_status()
+--   if vim.fn.exists(':DapStepIn') > 0 then
+--     local status = require'dap'.status()
+--     if #status > 0 then
+--       return '  ' .. string.format(' %s', status)
+--     end
+--
+--     return ''
+--   end
+--
+--   return ''
+-- end
 
 function M.buffer_name()
   local uri = vim.uri_from_bufnr(vim.api.nvim_get_current_buf())

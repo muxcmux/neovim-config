@@ -20,6 +20,7 @@ local keymaps = function(bufnr)
   local opts = { silent = true, noremap = true, buffer = bufnr }
 
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+  vim.keymap.set("n", "gD", ':vsplit | lua vim.lsp.buf.definition()<cr>', opts)
   vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
   vim.keymap.set("n", "<leader>t", vim.lsp.buf.format, opts)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
