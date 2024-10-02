@@ -2,9 +2,12 @@ return {
   -- Automatically close paired brackets and quotes
   {
     'altermo/ultimate-autopair.nvim',
-    event = { "InsertEnter", "CmdlineEnter" },
+    event = { "InsertEnter" },
     config = function()
-      require('ultimate-autopair').setup()
+      require('ultimate-autopair').setup({
+        cmap = false,
+        pair_cmap = false,
+      })
     end
   },
 
