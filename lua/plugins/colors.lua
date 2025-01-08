@@ -4,6 +4,7 @@ return {
     config = function()
       require("transparent").setup({
         exclude_groups = { "StatusLine" },
+        vim.cmd(":TransparentEnable")
       })
     end,
   }, {

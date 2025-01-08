@@ -2,14 +2,22 @@ local key = vim.keymap
 
 -- Diagnostics navigation
 local opts = { silent = true, noremap = true }
-key.set("n", "]d", function() vim.diagnostic.goto_next({float = true}) end, opts)
-key.set("n", "[d", function() vim.diagnostic.goto_prev({float = true}) end, opts)
+key.set("n", "]d", function() vim.diagnostic.jump({count=1, float = true}) end, opts)
+key.set("n", "[d", function() vim.diagnostic.jump({count=-1, float = true}) end, opts)
 key.set("n", "<leader>q", function()
   require("trouble").close({})
   vim.cmd("cclose")
 end, opts)
 -- Common LSP maps
 key.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, opts)
+key.set({ "i" }, "<C-a>", vim.lsp.buf.code_action, opts)
+
+-- Try to fix space cadet shift
+key.set({ "n", "v" }, "(", "<Nop>")
+key.set({ "n", "v" }, ")", "<Nop>")
+
+-- Duplicate line
+key.set({ "i" }, "<C-d>", "<Esc>:t.<CR>a")
 
 -- Change Ctrl-e/y to move 5 lines at a time
 key.set("n", "<C-e>", "5<C-e>")

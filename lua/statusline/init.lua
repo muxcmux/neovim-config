@@ -34,9 +34,9 @@ function M.statusline()
 
     [[%m%r ]],
 
-    [[%> %{luaeval("require'lsp-progress'.progress()")} ]],
+    [[%{%luaeval("require'nvim-navic'.get_location()")%} ]],
 
-    -- [[%<%{luaeval("require'statusline'.dap_status()")} ]],
+    [[%> %{luaeval("require'lsp-progress'.progress()")} ]],
 
     -- switch to the right side
     "%=",
@@ -96,19 +96,6 @@ function M.diagnostic_status()
 
   return ''
 end
-
--- function M.dap_status()
---   if vim.fn.exists(':DapStepIn') > 0 then
---     local status = require'dap'.status()
---     if #status > 0 then
---       return '  ' .. string.format(' %s', status)
---     end
---
---     return ''
---   end
---
---   return ''
--- end
 
 function M.buffer_name()
   local uri = vim.uri_from_bufnr(vim.api.nvim_get_current_buf())

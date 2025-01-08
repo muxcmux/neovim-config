@@ -54,38 +54,6 @@ local on_attach = function(client, bufnr)
   highlight_symbol_under_cursor(client, bufnr)
 end
 
--- Because  is fucking special
--- decide which LSP to start based on some heuristics
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-  group = vim.api.nvim_create_augroup("RubyLsFiletype", { clear = true }),
-  pattern = { "Gemfile", "Rakefile", "*.rb" },
-  callback = function()
-    local gemfile = vim.fs.find("Gemfile", { upward = true })[1]
-    if gemfile then
-      vim.cmd("LspStart ruby_lsp")
-      vim.fn.jobstart({ "rg", "standard", "Gemfile" }, {
-        cwd = vim.fs.dirname(gemfile),
-        on_exit = function(_, code)
-          if code == 0 then
-            vim.cmd("LspStart standardrb")
-          else
-            vim.fn.jobstart({ "rg", "rubocop", "Gemfile" }, {
-              cwd = vim.fs.dirname(gemfile),
-              on_exit = function(_, c)
-                if c == 0 then
-                  vim.cmd("LspStart rubocop")
-                end
-              end,
-            })
-          end
-        end
-      })
-    else
-      vim.cmd("LspStart standardrb")
-    end
-  end
-})
-
 return {
   {
     'neovim/nvim-lspconfig',
@@ -94,6 +62,38 @@ return {
     config = function()
       require("mason").setup()
       require("mason-lspconfig").setup()
+      require("nvim-navic").setup({
+        separator = "  ",
+        highlight = true,
+        icons = {
+          File = ' ',
+          Module = ' ',
+          Namespace = ' ',
+          Package = ' ',
+          Class = ' ',
+          Method = ' ',
+          Property = ' ',
+          Field = ' ',
+          Constructor = ' ',
+          Enum = ' ',
+          Interface = ' ',
+          Function = ' ',
+          Variable = ' ',
+          Constant = ' ',
+          String = ' ',
+          Number = ' ',
+          Boolean = ' ',
+          Array = ' ',
+          Object = ' ',
+          Key = ' ',
+          Null = ' ',
+          EnumMember = ' ',
+          Struct = ' ',
+          Event = ' ',
+          Operator = ' ',
+          TypeParameter = ' '
+        }
+      })
 
       ------------------------------
       -- LSP Server configuration --
@@ -151,7 +151,10 @@ return {
             },
           },
         }),
-        on_attach = on_attach,
+        on_attach = function(client, bufnr)
+          on_attach(client, bufnr)
+          require("nvim-navic").attach(client, bufnr)
+        end,
         settings = {
           ['rust-analyzer'] = {
             checkOnSave = {
@@ -167,7 +170,7 @@ return {
 
       -- Ruby
       lspconfig.ruby_lsp.setup({
-        autostart = false,
+        autostart = true,
         capabilities = capabilities,
         on_attach = on_attach,
         handlers = {
@@ -177,37 +180,7 @@ return {
       })
 
       lspconfig.standardrb.setup({
-        autostart = false,
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
-      lspconfig.rubocop.setup({
-        autostart = false,
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
-      -- Python
-      lspconfig.pyright.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
-      -- Typescript
-      lspconfig.ts_ls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
-      -- Javascript/Typescript rust powered ls
-      lspconfig.biome.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
-      -- Eslint lsp
-      lspconfig.eslint.setup({
+        autostart = true,
         capabilities = capabilities,
         on_attach = on_attach,
       })
@@ -224,30 +197,11 @@ return {
         },
       })
 
-      -- Tailwind
-      lspconfig.tailwindcss.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
-      -- CSS
-      lspconfig.cssls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
       -- Dockerfile LSP
       lspconfig.dockerls.setup({
         capabilities = capabilities,
         on_attach = on_attach,
       })
-
-      -- C/C++
-      lspconfig.clangd.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
     end,
 
     dependencies = {
@@ -256,6 +210,7 @@ return {
       'williamboman/mason-lspconfig.nvim',
       'onsails/lspkind.nvim',
       'linrongbin16/lsp-progress.nvim',
+      'SmiteshP/nvim-navic',
     },
   }, {
     'folke/trouble.nvim',

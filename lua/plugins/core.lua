@@ -1,14 +1,20 @@
 return {
   -- Automatically close paired brackets and quotes
+  -- {
+  --   'altermo/ultimate-autopair.nvim',
+  --   event = { "InsertEnter" },
+  --   config = function()
+  --     require('ultimate-autopair').setup({
+  --       cmap = false,
+  --       pair_cmap = false,
+  --     })
+  --   end
+  -- },
   {
-    'altermo/ultimate-autopair.nvim',
-    event = { "InsertEnter" },
+    'echasnovski/mini.pairs',
     config = function()
-      require('ultimate-autopair').setup({
-        cmap = false,
-        pair_cmap = false,
-      })
-    end
+      require('mini.pairs').setup()
+    end,
   },
 
   -- Align stuff
