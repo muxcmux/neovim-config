@@ -58,7 +58,10 @@ return {
           },
         },
         lsp_definitions = {
-          theme = "dropdown",
+          theme = "ivy",
+          layout_config = {
+            height = 0.5,
+          },
           prompt_prefix = "ƒ ",
         },
         lsp_references = {

@@ -54,11 +54,7 @@ key.set("v", "<C-r>", [["hy:%s/<C-r>h//gc<left><left><left>]])
 key.set("n", "<leader>n", ":cnext<CR>", { silent = true })
 key.set("n", "<leader>p", ":cprev<CR>", { silent = true })
 
--- navigate splits with arrow keys in normal mode
-key.set("n", "<Up>", ":wincmd k<CR>", { silent = true})
-key.set("n", "<Down>", ":wincmd j<CR>", { silent = true})
-key.set("n", "<Left>", ":wincmd h<CR>", { silent = true})
-key.set("n", "<Right>", ":wincmd l<CR>", { silent = true})
+-- resize splits with shift & arrow keys in normal mode
 key.set("n", "<S-Up>", ":res +1<CR>", { silent = true})
 key.set("n", "<S-Down>", ":res -1 j<CR>", { silent = true})
 key.set("n", "<S-Left>", ":vertical res +1<CR>", { silent = true})
